@@ -1,1 +1,80 @@
+import time
+import random
+import winsound
+import sys
+import subprocess
+from tkinter import messagebox, Tk, Toplevel, Label
 
+def create_scary_window(title, text, x, y):
+    win = Toplevel()
+    win.title(title)
+    win.geometry(f"350x120+{x}+{y}")
+    win.attributes("-topmost", True)
+    Label(win, text=text, fg="red", font=("Consolas", 10, "bold"), wraplength=300).pack(pady=20)
+    winsound.MessageBeep(winsound.MB_ICONHAND)
+
+def run_powershell_drama():
+    # Команды для PowerShell: меняем цвет на синий и выводим текст
+    ps_script = """
+    $Host.UI.RawUI.BackgroundColor = "DarkBlue"
+    Clear-Host
+    Write-Host "--- Roblox Free Robux Exploit v9.9 Platinum ---" -ForegroundColor Yellow
+    Start-Sleep -Seconds 1
+    Write-Host "[SYSTEM] Получение доступа к C:/Windows/System32/..." -ForegroundColor White
+    Start-Sleep -Milliseconds 500
+    
+    $files = @(
+        "0409", "07409496-a423-4a3e-b620-2cfb01a9318d_HyperV-ComputeNetwork.dll", 
+        "0ae3b998-9a38-4b72-a4c4-06849441518d_Servicing-Stack.dll", "1028", "1029", 
+        "1031", "1033", "1036", "1040", "1041", "1042", "1045", "1046", "1049", "1055"
+    )
+
+    foreach ($f in $files) {
+        Write-Host "Checking: $f ... " -NoNewline
+        Start-Sleep -Milliseconds (Get-Random -Minimum 100 -Maximum 400)
+        Write-Host "[VULNERABILITY FOUND]" -ForegroundColor Red
+    }
+
+    Write-Host ""
+    Write-Host "[DANGER] Начинаю удаление следов взлома (wipe mode)..." -ForegroundColor Red -BackgroundColor Black
+    Start-Sleep -Seconds 2
+    """
+    # Запускаем процесс PowerShell
+    subprocess.Popen(["powershell", "-NoExit", "-Command", ps_script])
+
+def start_educational_prank():
+    root = Tk()
+    root.withdraw()
+
+    if not messagebox.askyesno("System Warning", "Для генерации робуксов требуется временная модификация ядра Windows. Начать?"):
+        return
+
+    run_powershell_drama()
+    time.sleep(2)
+
+    try:
+        subprocess.Popen("regedit.exe")
+    except:
+        pass
+
+    for i in range(8):
+        x = random.randint(100, 1000)
+        y = random.randint(100, 700)
+        create_scary_window("КРИТИЧЕСКАЯ ОШИБКА", f"Сектор памяти {hex(random.randint(1000, 9999))} поврежден при записи в реестр!", x, y)
+        root.update()
+        time.sleep(0.5)
+
+    winsound.Beep(1000, 1000)
+    messagebox.showerror("SYSTEM FAILURE", "System32 compromised. Данные пользователя зашифрованы.")
+
+    # Шаг 6: Урок
+    messagebox.showinfo("УРОК БЕЗОПАСНОСТИ", 
+        "ЭТО БЫЛ ПРАНК! Твой компьютер в порядке.\n\n"
+        "Но подумай: ты только что разрешил программе открыть PowerShell, Редактор реестра и 'удалять' файлы.\n\n"
+        "Настоящий вирус сделал бы это молча, и ты бы потерял все аккаунты.\n"
+        "НИКОГДА не ищи бесплатные робуксы в .exe файлах!")
+    
+    root.destroy()
+
+if __name__ == "__main__":
+    start_educational_prank()
